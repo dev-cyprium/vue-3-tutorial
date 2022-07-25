@@ -1,0 +1,51 @@
+.multiselect {
+  border-radius: 1rem;
+  border-color: white;
+
+  &.is-active {
+    box-shadow: none;
+  }
+
+  &-dropdown {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 20px 50px -5px var(--shadow-color),
+      0 8px 20px -6px var(--shadow-color-second-layer);
+  }
+
+  &-option.is-pointed {
+    background: var(--input-hover-color);
+  }
+
+  &-clear-icon {
+    color: var(--primary-color);
+  }
+
+  &-tag {
+    &.is-user {
+      padding: 5px 8px;
+      border-radius: 22px;
+      background: var(--secondary-color-darkened);
+      margin: 3px 3px 8px;
+
+      i:before {
+        color: #ffffff;
+        border-radius: 50%;
+      }
+
+      img {
+        width: 18px;
+        border-radius: 50%;
+        height: 18px;
+        margin-right: 8px;
+        border: 2px solid #ffffffbf;
+      }
+
+      .user-image {
+        margin: 0 6px 0 0;
+        border-radius: 50%;
+        height: 22px;
+      }
+    }
+  }
+}

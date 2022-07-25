@@ -1,0 +1,12 @@
+@import './multiselect';
+
+:root {
+  --primary-color: var(--color-teal-200);
+  --secondary-color: var(--color-rose-200);
+
+  --secondary-color-darkened: var(--color-rose-300);
+
+  --input-hover-color: var(--color-rose-50);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color-second-layer: rgba(0, 0, 0, 0.1);
+}
