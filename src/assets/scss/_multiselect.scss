@@ -21,6 +21,12 @@
     color: var(--primary-color);
   }
 
+  &-tags-search:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+
   &-tag {
     &.is-user {
       padding: 5px 8px;

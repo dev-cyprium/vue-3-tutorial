@@ -9,13 +9,19 @@ module.exports = {
     screens: {
       xs: '200px',
       'sm-md--middle': '712px',
-      'lg-xl--middle': '1072px',
+      // 'lg-xl--middle': '1072px',
       ...defaultTheme.screens,
     },
     extend: {
       screens: {
         '3xl': '1624px',
         '4xl': '2000px',
+      },
+      minHeight: {
+        'screen-without-footer': 'calc(100vh - 292px)',
+      },
+      fontFamily: {
+        logo: ['Yeon Sung', 'cursive'],
       },
     },
   },
