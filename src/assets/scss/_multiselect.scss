@@ -13,15 +13,31 @@
       0 8px 20px -6px var(--shadow-color-second-layer);
   }
 
-  &-option.is-pointed {
-    background: var(--input-hover-color);
+  &-single-label-text {
+    color: var(--text-color);
+  }
+
+  &-option {
+    color: var(--text-color);
+
+    &.is-pointed {
+      color: var(--text-color);
+      background: var(--input-hover-color);
+    }
+
+    &.is-selected.is-pointed,
+    &.is-selected {
+      color: var(--text-color);
+      background: var(--primary-color-darkened);
+    }
   }
 
   &-clear-icon {
-    color: var(--primary-color);
+    color: var(--secondary-color);
   }
 
-  &-tags-search:focus {
+  &-tags-search:focus,
+  &-search:focus {
     border: none;
     outline: none;
     box-shadow: none;
@@ -31,7 +47,7 @@
     &.is-user {
       padding: 5px 8px;
       border-radius: 22px;
-      background: var(--secondary-color-darkened);
+      background: var(--primary-color-darkened);
       margin: 3px 3px 8px;
 
       i:before {

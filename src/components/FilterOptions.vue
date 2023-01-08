@@ -1,61 +1,53 @@
 <template>
-  <!-- 4xl:max-w-[100rem] -->
-  <div
-    class="my-5 flex w-full flex-col justify-center rounded-2xl bg-white py-3 shadow-xl shadow-slate-300/60"
-  >
-    <div
-      class="flex flex-wrap items-center justify-center gap-10 px-6 xs:flex-col sm-md--middle:flex-row"
-    >
-      <Multiselect
-        v-model="selectedFilters"
-        mode="tags"
-        placeholder="Select filters"
-        track-by="name"
-        label="name"
-        :close-on-select="true"
-        :always-open="false"
-        :searchable="true"
-        :options="options"
-        @change="(ev) => $emit('onSelectedFilters', ev)"
-      >
-        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-          <div
-            class="multiselect-tag is-user"
-            :class="{
-              'is-disabled': disabled,
-            }"
-          >
-            {{ option.name }}
-            <span
-              v-if="!disabled"
-              class="multiselect-tag-remove"
-              @mousedown.prevent="handleTagRemove(option, $event)"
-            >
-              <span class="multiselect-tag-remove-icon"></span>
-            </span>
-          </div>
-        </template>
-      </Multiselect>
-    </div>
+  <div class="mb-5 flex w-full justify-center gap-3 xs:flex-col md:flex-row">
+    <Dropdown
+      classes="flex-1  basis-2/3"
+      :options="genres"
+      :searchable="true"
+      mode="tags"
+      placeholder="Filter by genres"
+      @onSelectedOptions="(ev) => $emit('onSelectedGenres', ev)"
+    />
+    <Dropdown
+      classes="flex-1 basis-1/3"
+      :options="filteringModes"
+      :prefilled-options="[filteringModes[0].value]"
+      :searchable="false"
+      mode="single"
+      placeholder="Select filtering mode"
+      @onSelectedOptions="(ev) => $emit('onSelectedMode', ev)"
+    />
   </div>
 </template>
 
 <script>
-import Multiselect from '@vueform/multiselect';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import Dropdown from '@/components/shared/Dropdown.vue';
 
 export default {
-  emits: ['onSelectedFilters'],
   setup() {
+    const filteringModes = computed(() => [
+      {
+        name: 'Any of the following genres',
+        value: 'any',
+      },
+      {
+        name: 'All of the following genres',
+        value: 'all',
+      },
+    ]);
+
     return {
       selectedFilters: ref([]),
+      filteringModes,
     };
   },
+  emits: ['onSelectedGenres', 'onSelectedMode'],
   components: {
-    Multiselect,
+    Dropdown,
   },
   props: {
-    options: {
+    genres: {
       type: Array,
       required: true,
     },
