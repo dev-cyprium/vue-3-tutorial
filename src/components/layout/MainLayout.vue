@@ -1,3 +1,9 @@
+<script setup>
+import Navigation from '@/components/layout/Navigation.vue';
+import Footer from '@/components/layout/Footer.vue';
+import Loader from '@/components/shared/Loader.vue';
+</script>
+
 <template>
   <Navigation />
   <main
@@ -17,22 +23,5 @@
   </main>
   <Footer />
 </template>
-
-<script>
-import Navigation from '@/components/layout/Navigation.vue';
-import Footer from '@/components/layout/Footer.vue';
-import Loader from '@/components/shared/Loader.vue';
-
-export default {
-  setup() {
-    return {};
-  },
-  components: {
-    Navigation,
-    Footer,
-    Loader,
-  },
-};
-</script>
 
 <style lang="scss" scoped></style>

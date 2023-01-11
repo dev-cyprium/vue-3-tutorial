@@ -89,7 +89,7 @@
       >
         {{ comicDescription }}
       </p>
-      <button type="button" class="btn-primary">
+      <button type="button" class="btn-primary" @click="onAddToReadingList">
         <svg
           class="mr-2 h-5 w-5"
           fill="none"
@@ -112,14 +112,21 @@
 
 <script>
 import { computed } from '@vue/runtime-core';
+import { useReadingListStore } from '@/stores/readingList';
+
 export default {
   setup(props) {
     const comicDescription = computed(() => {
       return `${props.comic.description.substring(0, 400)} ...`;
     });
+    const readingListStore = useReadingListStore();
+    const onAddToReadingList = () => {
+      readingListStore.add(props.comic);
+    };
 
     return {
       comicDescription,
+      onAddToReadingList,
     };
   },
   props: {

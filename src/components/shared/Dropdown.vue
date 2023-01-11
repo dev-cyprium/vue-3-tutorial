@@ -12,6 +12,7 @@
       :always-open="false"
       :searchable="searchable"
       :options="options"
+      :can-clear="mode === 'tags'"
       @change="(ev) => $emit('onSelectedOptions', ev)"
     >
       <template

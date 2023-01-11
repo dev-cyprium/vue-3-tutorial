@@ -20,7 +20,66 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue';
+import axios from 'axios';
+import MangaItem from '@/components/MangaItem.vue';
+import FilterOptions from '@/components/FilterOptions.vue';
+import SortingOptions from '@/components/SortingOptions.vue';
+
+let { data: comics } = await axios.get('http://localhost:9000/comics');
+const { data: genres } = await axios.get('http://localhost:9000/genres');
+
+comics = ref(comics);
+
+let selectedGenres = ref([]);
+let filteringMode = ref('any');
+const selectedSortingOption = ref('score');
+const sortingMode = ref('asc');
+
+const sortedComics = computed(() => {
+  const allComics = comics.value.map((c) => c);
+
+  return allComics.sort((a, b) => {
+    if (sortingMode.value === 'asc') {
+      return a[selectedSortingOption.value] > b[selectedSortingOption.value]
+        ? 1
+        : -1;
+    }
+
+    // descending
+    return a[selectedSortingOption.value] < b[selectedSortingOption.value]
+      ? 1
+      : -1;
+  });
+});
+
+const filteredComics = computed(() => {
+  if (selectedGenres.value?.length === 0) return sortedComics.value;
+
+  if (filteringMode.value === 'all') {
+    // All of the following genres
+    return sortedComics.value?.filter((comic) =>
+      selectedGenres.value?.every((filter) => comic.genres.includes(filter))
+    );
+  }
+
+  // Any of the following genres
+  return sortedComics.value?.filter((comic) =>
+    comic.genres.some((genre) => selectedGenres.value?.includes(genre))
+  );
+});
+
+const updateSelectedGenres = (filters) => {
+  selectedGenres.value = filters;
+};
+
+const updateFilteringMode = (mode) => {
+  filteringMode.value = mode;
+};
+</script>
+
+<!-- <script>
 import { computed, ref } from 'vue';
 import axios from 'axios';
 import MangaItem from '@/components/MangaItem.vue';
@@ -132,4 +191,4 @@ export default {
   //   },
   // },
 };
-</script>
+</script> -->
