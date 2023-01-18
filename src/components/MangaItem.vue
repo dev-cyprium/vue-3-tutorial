@@ -27,7 +27,7 @@
         <div class="flex gap-1">
           <svg
             class="text-rose-300 xs:h-6 xs:w-6 sm:h-4 sm:w-4"
-            fill="none"
+            fill="var(--color-rose-300)"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
