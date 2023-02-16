@@ -1,40 +1,74 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
 import axios from 'axios';
-import { findInSet } from '../composables/helpers';
+import { findById } from '../composables/helpers';
+// import { ref } from 'vue';
 
-export const useReadingListStore = defineStore('readingListStore', () => {
-  let currentlyReading = ref(new Set());
-  let isLoading = ref(true);
+export const useReadingListStore = defineStore('readingListStore', {
+  state: () => ({
+    currentlyReading: [],
+    isLoading: true,
+  }),
 
-  const fetchState = async () => {
-    currentlyReading.value = new Set(
-      (await axios.get('http://localhost:9000/currently-reading/')).data
-    );
-    isLoading.value = false;
-  };
+  actions: {
+    async fetchState() {
+      this.currentlyReading = (
+        await axios.get('http://localhost:9000/currently-reading/')
+      ).data;
+      this.isLoading = false;
+    },
 
-  const add = (comic) => {
-    if (!findInSet(currentlyReading.value, (c) => c.id === comic.id)) {
-      console.log('first time adding: ', comic.id);
-      axios.post('http://localhost:9000/currently-reading/', comic);
-    }
-    currentlyReading.value.add(comic);
-  };
+    add(comic) {
+      if (!findById(this.currentlyReading, comic.id)) {
+        console.log('first time adding: ', comic.id);
+        this.currentlyReading.push(comic);
+        axios.post('http://localhost:9000/currently-reading/', comic);
+      }
+    },
 
-  const remove = (comic) => {
-    if (findInSet(currentlyReading.value, (c) => c.id === comic.id)) {
-      currentlyReading.value.remove(comic);
-      axios.delete('http://localhost:9000/currently-reading/', comic);
-    }
-  };
-
-  fetchState();
-
-  return {
-    isLoading,
-    currentlyReading,
-    add,
-    remove,
-  };
+    remove(comic) {
+      if (findById(this.currentlyReading, comic.id)) {
+        this.currentlyReading = this.currentlyReading.filter(
+          (c) => c.id !== comic.id
+        );
+        axios.delete('http://localhost:9000/currently-reading/', comic);
+      }
+    },
+  },
 });
+
+// export const useReadingListStore = defineStore('readingListStore', () => {
+//   let currentlyReading = ref([]);
+//   let isLoading = ref(true);
+
+//   const fetchState = async () => {
+//     currentlyReading.value = (
+//       await axios.get('http://localhost:9000/currently-reading/')
+//     ).data;
+//     isLoading.value = false;
+//   };
+
+//   const add = (comic) => {
+//     if (!findById(currentlyReading.value, comic.id)) {
+//       console.log('first time adding: ', comic.id);
+//       currentlyReading.value.push(comic);
+//       axios.post('http://localhost:9000/currently-reading/', comic);
+//     }
+//   };
+
+//   const remove = (comic) => {
+//     if (findById(currentlyReading.value, comic.id)) {
+//       currentlyReading.value = currentlyReading.value.filter(
+//         (c) => c.id !== comic.id
+//       );
+//       axios.delete('http://localhost:9000/currently-reading/', comic);
+//     }
+//   };
+
+//   return {
+//     isLoading,
+//     currentlyReading,
+//     fetchState,
+//     add,
+//     remove,
+//   };
+// });

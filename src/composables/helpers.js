@@ -5,3 +5,7 @@ export const findInSet = (set, callback) => {
     }
   }
 };
+
+export const findById = (arr, id) => {
+  return arr.find((item) => item.id === id) ?? null;
+};
