@@ -121,7 +121,7 @@
       "chapters": 198,
       "published_from": "Apr 13, 2005",
       "published_to": null,
-      "score": 9.0,
+      "score": 9,
       "serialization": "Afternoon"
     },
     {
@@ -208,5 +208,6 @@
       "name": "Test",
       "value": "test"
     }
-  ]
+  ],
+  "currently-reading": []
 }

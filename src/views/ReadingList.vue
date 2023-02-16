@@ -1,8 +1,13 @@
 <script setup>
 import MainLayout from '@/components/layout/MainLayout.vue';
 import { useReadingListStore } from '@/stores/readingList';
+import { onMounted } from 'vue';
+import Loader from '@/components/shared/Loader.vue';
 
 const store = useReadingListStore();
+onMounted(() => {
+  console.log(store.isLoading);
+});
 
 const chaptersRead = 50;
 const yourRating = 9;
@@ -38,7 +43,15 @@ const yourRating = 9;
             </th>
           </tr>
         </thead>
-        <tbody v-if="store.currentlyReading.length === 0">
+        <tbody v-if="store.isLoading">
+          <tr class="hover:bg-gray-50">
+            <td class="loader-wrapper px-6 py-6" colspan="6">
+              <Loader />
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody v-if="store.currentlyReading.size === 0 && !store.isLoading">
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-6" colspan="6">
               Your list is empty. Go to home page to add a comic.
@@ -162,3 +175,10 @@ const yourRating = 9;
     </div>
   </MainLayout>
 </template>
+
+<style scoped>
+.loader-wrapper > div {
+  display: flex;
+  justify-content: center;
+}
+</style>
