@@ -1,12 +1,35 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { findById } from '../composables/helpers';
+import dayjs from 'dayjs';
 // import { ref } from 'vue';
 
 export const useReadingListStore = defineStore('readingListStore', {
   state: () => ({
     currentlyReading: [],
     isLoading: true,
+    readingStatuses: [
+      {
+        code: 'CURRENTLY',
+        label: 'Currently reading',
+      },
+      {
+        code: 'COMPLETED',
+        label: 'Completed',
+      },
+      {
+        code: 'TODO',
+        label: 'Plan to read',
+      },
+      {
+        code: 'ONHOLD',
+        label: 'On hold',
+      },
+      {
+        code: 'DROPPED',
+        label: 'Dropped',
+      },
+    ],
   }),
 
   actions: {
@@ -20,17 +43,27 @@ export const useReadingListStore = defineStore('readingListStore', {
     add(comic) {
       if (!findById(this.currentlyReading, comic.id)) {
         console.log('first time adding: ', comic.id);
-        this.currentlyReading.push(comic);
-        axios.post('http://localhost:9000/currently-reading/', comic);
+        const data = {
+          ...comic,
+          listData: {
+            readingState: this.readingStatuses[0].code,
+            startedReading: dayjs().format('YYYY-MM-DD'),
+            chaptersRead: 1,
+            rating: null,
+          },
+        };
+        console.log('🚀 ~ file: readingList.js:47 ~ add ~ data', data);
+        this.currentlyReading.push(data);
+        axios.post('http://localhost:9000/currently-reading/', data);
       }
     },
 
-    remove(comic) {
-      if (findById(this.currentlyReading, comic.id)) {
+    remove(comicId) {
+      if (findById(this.currentlyReading, comicId)) {
         this.currentlyReading = this.currentlyReading.filter(
-          (c) => c.id !== comic.id
+          (c) => c.id !== comicId
         );
-        axios.delete('http://localhost:9000/currently-reading/', comic);
+        axios.delete(`http://localhost:9000/currently-reading/${comicId}`);
       }
     },
   },

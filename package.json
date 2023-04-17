@@ -14,6 +14,7 @@
   "dependencies": {
     "@vueform/multiselect": "^2.3.4",
     "axios": "^1.2.2",
+    "dayjs": "^1.11.7",
     "pinia": "^2.0.11",
     "vue": "^3.2.29",
     "vue-multiselect": "^3.0.0-alpha.2",

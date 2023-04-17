@@ -21,8 +21,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useReadingListStore } from '@/stores/readingList';
 import MangaItem from '@/components/MangaItem.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
 import SortingOptions from '@/components/SortingOptions.vue';
@@ -32,10 +33,18 @@ const { data: genres } = await axios.get('http://localhost:9000/genres');
 
 comics = ref(comics);
 
-let selectedGenres = ref([]);
 let filteringMode = ref('any');
+let selectedGenres = ref([]);
 const selectedSortingOption = ref('score');
 const sortingMode = ref('asc');
+
+const readingListStore = useReadingListStore();
+
+onMounted(async () => {
+  if (!readingListStore.currentlyReading.length) {
+    await readingListStore.fetchState();
+  }
+});
 
 const sortedComics = computed(() => {
   const allComics = comics.value.map((c) => c);
