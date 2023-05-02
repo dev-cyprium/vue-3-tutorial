@@ -28,7 +28,29 @@
           </h3>
           <slot name="content"></slot>
           <div class="flex w-full gap-2">
-            <slot name="footer"></slot>
+            <AppButton
+              v-if="secondaryButton"
+              classes="w-1/2 mt-6 mr-0"
+              :text="secondaryButton.buttonText"
+              :is-primary="false"
+              @onClick="$emit('secondaryAction')"
+            >
+              <template #icon>
+                <slot name="secondary-button-icon"></slot>
+              </template>
+            </AppButton>
+            <AppButton
+              :classes="`
+                ${secondaryButton ? 'w-1/2' : 'w-full'}
+                mt-6 mr-0
+              `"
+              :text="primaryButton.buttonText"
+              @onClick="$emit('primaryAction')"
+            >
+              <template #icon>
+                <slot name="primary-button-icon"></slot>
+              </template>
+            </AppButton>
           </div>
         </div>
       </div>
@@ -39,12 +61,25 @@
 <script setup>
 import { onUnmounted, onMounted } from 'vue';
 import CloseIcon from '@/components/shared/icons/CloseIcon.vue';
+import AppButton from '@/components/shared/AppButton.vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'primaryAction', 'secondaryAction']);
 const props = defineProps({
   title: {
     type: String,
+    required: true,
     default: 'Modal title',
+  },
+  primaryButton: {
+    type: Object,
+    required: true,
+    default: () => ({
+      buttonText: 'Ok',
+    }),
+  },
+  secondaryButton: {
+    type: Object,
+    default: () => null,
   },
 });
 

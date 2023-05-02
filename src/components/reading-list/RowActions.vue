@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center gap-4">
-    <a href="#" @click.prevent="showEditModal = true" title="Edit manga">
+    <a href="#" title="Edit manga" @click.prevent="showEditModal = true">
       <EditIcon classes="text-gray-500" />
     </a>
     <a
@@ -8,34 +8,38 @@
       title="Remove from list"
       @click.prevent="showRemoveModal = true"
     >
-      <RemoveBinIcon />
+      <RemoveBinIcon classes="text-gray-500" />
     </a>
     <!-- Edit modal -->
     <Modal
       v-if="showEditModal"
       :title="`Edit ${props.comic.title}`"
+      :primary-button="{
+        buttonText: 'Update progress',
+      }"
+      @primaryAction="onSubmit"
       @close="showEditModal = false"
     >
       <template #content>
         <EditManga :comic="props.comic" />
       </template>
-      <template #footer>
-        <AppButton
-          classes="w-full mt-6 mr-0"
-          text="Update progress"
-          @onClick="onSubmit"
-        >
-          <template #icon>
-            <EditIcon classes="text-white mr-2 h-auto w-4" />
-          </template>
-        </AppButton>
+      <template #primary-button-icon>
+        <EditIcon classes="text-white mr-2 h-auto w-4" />
       </template>
     </Modal>
 
     <!-- Remove modal -->
     <Modal
       v-if="showRemoveModal"
-      :title="`Remove ${comic.title}`"
+      :title="`Remove ${props.comic.title}`"
+      :primary-button="{
+        buttonText: 'Remove from list',
+      }"
+      :secondary-button="{
+        buttonText: 'Cancel',
+      }"
+      @primaryAction="$emit('comicRemoved', props.comic.id)"
+      @secondaryAction="showRemoveModal = false"
       @close="showRemoveModal = false"
     >
       <template #content>
@@ -44,26 +48,11 @@
           list?
         </p>
       </template>
-      <template #footer>
-        <AppButton
-          classes="w-1/2 mt-6 mr-0 bg-white text-rose-300"
-          text="Cancel"
-          :is-primary="false"
-          @onClick="showRemoveModal = false"
-        >
-          <template #icon>
-            <CloseIcon classes="text-rose-300 mr-2 h-auto w-4" />
-          </template>
-        </AppButton>
-        <AppButton
-          classes="w-1/2 mt-6 mr-0"
-          text="Remove from list"
-          @onClick="$emit('comicRemoved', props.comic.id)"
-        >
-          <template #icon>
-            <RemoveBinIcon classes="text-white mr-2 h-auto w-4" />
-          </template>
-        </AppButton>
+      <template #primary-button-icon>
+        <RemoveBinIcon classes="text-white mr-2 h-auto w-4" />
+      </template>
+      <template #secondary-button-icon>
+        <CloseIcon classes="text-rose-300 mr-2 h-auto w-4" />
       </template>
     </Modal>
   </div>
@@ -71,10 +60,9 @@
 
 <script setup>
 import { defineAsyncComponent, ref } from 'vue';
-import AppButton from '@/components/shared/AppButton.vue';
 import EditIcon from '@/components/shared/icons/EditIcon.vue';
-import RemoveBinIcon from '@/components/shared/icons/RemoveBinIcon.vue';
 import CloseIcon from '@/components/shared/icons/CloseIcon.vue';
+import RemoveBinIcon from '@/components/shared/icons/RemoveBinIcon.vue';
 
 const Modal = defineAsyncComponent(() =>
   import('@/components/shared/Modal.vue')
