@@ -1,43 +1,80 @@
 <template>
   <div class="flex items-center gap-4">
-    <a href="#" @click.prevent="showModal = true" title="Edit manga">
+    <a href="#" @click.prevent="showEditModal = true" title="Edit manga">
       <EditIcon classes="text-gray-500" />
     </a>
     <a
       href="#"
       title="Remove from list"
-      @click.prevent="$emit('comicRemoved', props.comic.id)"
+      @click.prevent="showRemoveModal = true"
     >
-      <svg
-        class="h-5 w-5"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        x-tooltip="tooltip"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-        />
-      </svg>
+      <RemoveBinIcon />
     </a>
+    <!-- Edit modal -->
     <Modal
-      v-if="showModal"
-      :title="`Edit ${comic.title}`"
-      buttonText="Update progress"
-      @close="showModal = false"
+      v-if="showEditModal"
+      :title="`Edit ${props.comic.title}`"
+      @close="showEditModal = false"
     >
-      <EditManga :comic="comic" />
+      <template #content>
+        <EditManga :comic="props.comic" />
+      </template>
+      <template #footer>
+        <AppButton
+          classes="w-full mt-6 mr-0"
+          text="Update progress"
+          @onClick="onSubmit"
+        >
+          <template #icon>
+            <EditIcon classes="text-white mr-2 h-auto w-4" />
+          </template>
+        </AppButton>
+      </template>
+    </Modal>
+
+    <!-- Remove modal -->
+    <Modal
+      v-if="showRemoveModal"
+      :title="`Remove ${comic.title}`"
+      @close="showRemoveModal = false"
+    >
+      <template #content>
+        <p class="whitespace-normal text-base">
+          Are you sure you want to remove {{ props.comic.title }} from your
+          list?
+        </p>
+      </template>
+      <template #footer>
+        <AppButton
+          classes="w-1/2 mt-6 mr-0 bg-white text-rose-300"
+          text="Cancel"
+          :is-primary="false"
+          @onClick="showRemoveModal = false"
+        >
+          <template #icon>
+            <CloseIcon classes="text-rose-300 mr-2 h-auto w-4" />
+          </template>
+        </AppButton>
+        <AppButton
+          classes="w-1/2 mt-6 mr-0"
+          text="Remove from list"
+          @onClick="$emit('comicRemoved', props.comic.id)"
+        >
+          <template #icon>
+            <RemoveBinIcon classes="text-white mr-2 h-auto w-4" />
+          </template>
+        </AppButton>
+      </template>
     </Modal>
   </div>
 </template>
 
 <script setup>
 import { defineAsyncComponent, ref } from 'vue';
+import AppButton from '@/components/shared/AppButton.vue';
 import EditIcon from '@/components/shared/icons/EditIcon.vue';
+import RemoveBinIcon from '@/components/shared/icons/RemoveBinIcon.vue';
+import CloseIcon from '@/components/shared/icons/CloseIcon.vue';
 
 const Modal = defineAsyncComponent(() =>
   import('@/components/shared/Modal.vue')
@@ -54,7 +91,13 @@ const props = defineProps({
   },
 });
 
-const showModal = ref(false);
+const showEditModal = ref(false);
+const showRemoveModal = ref(false);
+
+const onSubmit = () => {
+  console.log('on submit...');
+  showEditModal.value = false;
+};
 </script>
 
 <style lang="scss" scoped></style>

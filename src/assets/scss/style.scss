@@ -2,8 +2,9 @@
 @tailwind components;
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex justify-center rounded-2xl bg-rose-300 text-center text-sm font-medium text-white hover:bg-gradient-to-l hover:from-teal-300 hover:to-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-300;
+  .btn-base {
+    @apply inline-flex justify-center rounded-2xl text-center
+      focus:outline-none focus:ring-4 focus:ring-rose-300;
   }
 }
 
