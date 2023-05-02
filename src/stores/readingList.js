@@ -8,30 +8,33 @@ export const useReadingListStore = defineStore('readingListStore', {
   state: () => ({
     currentlyReading: [],
     isLoading: true,
-    readingStates: [
-      {
-        value: 'currently',
-        name: 'Currently reading',
-      },
-      {
-        value: 'completed',
-        name: 'Completed',
-      },
-      {
-        value: 'todo',
-        name: 'Plan to read',
-      },
-      {
-        value: 'onhold',
-        name: 'On hold',
-      },
-      {
-        value: 'dropped',
-        name: 'Dropped',
-      },
-    ],
   }),
-
+  getters: {
+    readingStates() {
+      return [
+        {
+          value: 'currently',
+          name: 'Currently reading',
+        },
+        {
+          value: 'completed',
+          name: 'Completed',
+        },
+        {
+          value: 'todo',
+          name: 'Plan to read',
+        },
+        {
+          value: 'onhold',
+          name: 'On hold',
+        },
+        {
+          value: 'dropped',
+          name: 'Dropped',
+        },
+      ];
+    },
+  },
   actions: {
     async fetchState() {
       this.currentlyReading = (
@@ -49,6 +52,7 @@ export const useReadingListStore = defineStore('readingListStore', {
             readingState: this.readingStates[0].value,
             startedReading: dayjs().format('YYYY-MM-DD'),
             chaptersRead: 1,
+            volumesRead: 0,
             rating: null,
           },
         };

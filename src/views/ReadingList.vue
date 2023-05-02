@@ -41,6 +41,9 @@ onMounted(async () => {
                 Chapters read
               </th>
               <th scope="col" class="px-6 py-4 font-medium text-gray-900">
+                Volumes read
+              </th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900">
                 Your rating
               </th>
               <th scope="col" class="px-6 py-4 font-medium text-gray-900">

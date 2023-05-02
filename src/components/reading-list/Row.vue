@@ -49,6 +49,15 @@
       </div>
     </td>
     <td class="px-6 py-4">
+      <div class="flex gap-2">
+        <span
+          class="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-500"
+        >
+          {{ props.comic.listData.volumesRead }} / {{ props.comic.volumes }}
+        </span>
+      </div>
+    </td>
+    <td class="px-6 py-4">
       <span class="flex items-center gap-1">
         {{ props.comic.listData.rating ?? 'Your rating' }}
         <StarIcon />

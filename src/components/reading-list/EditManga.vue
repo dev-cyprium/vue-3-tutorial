@@ -5,7 +5,7 @@
         >Reading status</label
       >
       <Dropdown
-        classes="flex-1 basis-2/3"
+        classes="flex-1 basis-2/3 py-2"
         :outline="true"
         :options="readingListStore.readingStates"
         :prefilled-options="[readingListStore.readingStates[0].value]"
@@ -40,7 +40,7 @@
         Your rating
       </label>
       <Dropdown
-        classes="flex-1 basis-2/3"
+        classes="flex-1 basis-2/3 py-2"
         :outline="true"
         :options="ratings"
         :prefilled-options="[ratings[0].value]"

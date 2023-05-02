@@ -14,6 +14,7 @@
       :searchable="searchable"
       :options="options"
       :can-clear="mode === 'tags'"
+      :can-deselect="false"
       @open="onMultiselectOpening"
       @close="onMultiselectClosing"
       @change="(ev) => $emit('onSelectedOptions', ev)"
@@ -50,6 +51,7 @@ import { computed } from 'vue';
 export default {
   setup(props) {
     const multiselectWrapper = ref();
+    const selectedOptions = ref(props.prefilledOptions);
 
     const outlineClasses = computed(() => {
       return props.outline ? 'outline outline-2 outline-rose-200' : '';
@@ -79,7 +81,7 @@ export default {
       onMultiselectClosing,
       outlineClasses,
       shadowClasses,
-      selectedOptions: ref(props.prefilledOptions),
+      selectedOptions,
     };
   },
   components: {
