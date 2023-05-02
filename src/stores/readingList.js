@@ -2,32 +2,32 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { findById } from '../composables/helpers';
 import dayjs from 'dayjs';
-// import { ref } from 'vue';
+// import { computed, ref } from 'vue';
 
 export const useReadingListStore = defineStore('readingListStore', {
   state: () => ({
     currentlyReading: [],
     isLoading: true,
-    readingStatuses: [
+    readingStates: [
       {
-        code: 'CURRENTLY',
-        label: 'Currently reading',
+        value: 'currently',
+        name: 'Currently reading',
       },
       {
-        code: 'COMPLETED',
-        label: 'Completed',
+        value: 'completed',
+        name: 'Completed',
       },
       {
-        code: 'TODO',
-        label: 'Plan to read',
+        value: 'todo',
+        name: 'Plan to read',
       },
       {
-        code: 'ONHOLD',
-        label: 'On hold',
+        value: 'onhold',
+        name: 'On hold',
       },
       {
-        code: 'DROPPED',
-        label: 'Dropped',
+        value: 'dropped',
+        name: 'Dropped',
       },
     ],
   }),
@@ -46,7 +46,7 @@ export const useReadingListStore = defineStore('readingListStore', {
         const data = {
           ...comic,
           listData: {
-            readingState: this.readingStatuses[0].code,
+            readingState: this.readingStates[0].value,
             startedReading: dayjs().format('YYYY-MM-DD'),
             chaptersRead: 1,
             rating: null,
@@ -72,6 +72,28 @@ export const useReadingListStore = defineStore('readingListStore', {
 // export const useReadingListStore = defineStore('readingListStore', () => {
 //   let currentlyReading = ref([]);
 //   let isLoading = ref(true);
+//   const readingStates = computed([
+//     {
+//       value: 'currently',
+//       name: 'Currently reading',
+//     },
+//     {
+//       value: 'completed',
+//       name: 'Completed',
+//     },
+//     {
+//       value: 'todo',
+//       name: 'Plan to read',
+//     },
+//     {
+//       value: 'onhold',
+//       name: 'On hold',
+//     },
+//     {
+//       value: 'dropped',
+//       name: 'Dropped',
+//     },
+//   ]);
 
 //   const fetchState = async () => {
 //     currentlyReading.value = (
@@ -83,8 +105,18 @@ export const useReadingListStore = defineStore('readingListStore', {
 //   const add = (comic) => {
 //     if (!findById(currentlyReading.value, comic.id)) {
 //       console.log('first time adding: ', comic.id);
-//       currentlyReading.value.push(comic);
-//       axios.post('http://localhost:9000/currently-reading/', comic);
+//       const data = {
+//         ...comic,
+//         listData: {
+//           readingState: readingStates.value[0].value,
+//           startedReading: dayjs().format('YYYY-MM-DD'),
+//           chaptersRead: 1,
+//           rating: null,
+//         },
+//       };
+//       console.log('🚀 ~ file: readingList.js:47 ~ add ~ data', data);
+//       currentlyReading.value.push(data);
+//       axios.post('http://localhost:9000/currently-reading/', data);
 //     }
 //   };
 
@@ -100,6 +132,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 //   return {
 //     isLoading,
 //     currentlyReading,
+//     readingStates,
 //     fetchState,
 //     add,
 //     remove,

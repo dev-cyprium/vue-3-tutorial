@@ -50,10 +50,15 @@
       >
         {{ comicDescription }}
       </p>
-      <button type="button" class="btn-primary" @click="onAddToReadingList">
-        <BookIcon classes="text-white mr-2 h-5 w-5" />
-        Add to reading list
-      </button>
+      <AppButton
+        text="Add to reading list"
+        classes="my-3 py-3"
+        @onClick="onAddToReadingList"
+      >
+        <template #icon>
+          <BookIcon classes="text-white mr-2 h-5 w-5" />
+        </template>
+      </AppButton>
     </div>
   </div>
 </template>
@@ -64,6 +69,7 @@ import { useReadingListStore } from '@/stores/readingList';
 import StarIcon from '@/components/shared/icons/StarIcon.vue';
 import ChaptersIcon from '@/components/shared/icons/ChaptersIcon.vue';
 import BookIcon from '@/components/shared/icons/BookIcon.vue';
+import AppButton from '@/components/shared/AppButton.vue';
 
 export default {
   setup(props) {
@@ -86,12 +92,14 @@ export default {
     comic: {
       type: Object,
       required: true,
+      default: () => ({}),
     },
   },
   components: {
     StarIcon,
     BookIcon,
     ChaptersIcon,
+    AppButton,
   },
 };
 </script>

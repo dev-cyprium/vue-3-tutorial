@@ -3,7 +3,7 @@
 
 @layer components {
   .btn-primary {
-    @apply my-3 mr-2 inline-flex rounded-lg bg-rose-300 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-l hover:from-teal-300 hover:to-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-300;
+    @apply inline-flex justify-center rounded-2xl bg-rose-300 text-center text-sm font-medium text-white hover:bg-gradient-to-l hover:from-teal-300 hover:to-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-300;
   }
 }
 

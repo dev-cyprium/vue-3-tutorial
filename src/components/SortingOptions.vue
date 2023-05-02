@@ -2,6 +2,7 @@
   <div class="mb-5 flex w-full justify-center gap-3 xs:flex-col md:flex-row">
     <Dropdown
       classes="flex-1 basis-1/3"
+      :shadow="true"
       :options="sortingOptions"
       :prefilled-options="[sortingOptions[0].value]"
       :searchable="false"
@@ -11,6 +12,7 @@
     />
     <Dropdown
       classes="flex-1 basis-1/3"
+      :shadow="true"
       :options="sortingModes"
       :prefilled-options="[sortingModes[0].value]"
       :searchable="false"

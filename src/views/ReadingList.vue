@@ -44,7 +44,7 @@ onMounted(async () => {
                 Your rating
               </th>
               <th scope="col" class="px-6 py-4 font-medium text-gray-900">
-                Remove
+                Actions
               </th>
             </tr>
           </thead>
@@ -77,8 +77,8 @@ onMounted(async () => {
             <Row
               v-for="comic in readingListStore.currentlyReading"
               :key="comic.id"
-              :item="comic"
-              @remove-comic="readingListStore.remove($event)"
+              :comic="comic"
+              @comicRemoved="readingListStore.remove($event)"
             />
           </tbody>
         </table>

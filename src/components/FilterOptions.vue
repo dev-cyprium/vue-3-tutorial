@@ -2,6 +2,7 @@
   <div class="mb-5 flex w-full justify-center gap-3 xs:flex-col md:flex-row">
     <Dropdown
       classes="flex-1  basis-2/3"
+      :shadow="true"
       :options="genres"
       :searchable="true"
       mode="tags"
@@ -10,6 +11,7 @@
     />
     <Dropdown
       classes="flex-1 basis-1/3"
+      :shadow="true"
       :options="filteringModes"
       :prefilled-options="[filteringModes[0].value]"
       :searchable="false"
