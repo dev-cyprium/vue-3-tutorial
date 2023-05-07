@@ -8,7 +8,7 @@
       ${additionalClasses}
       ${props.classes}
     `"
-    @click="$emit('onClick')"
+    @click="$emit('on-click')"
   >
     <slot name="icon"></slot>
     {{ props.text }}
@@ -18,8 +18,7 @@
 <script setup>
 import { computed } from 'vue';
 
-// eslint-disable-next-line no-unused-vars
-const emit = defineEmits(['onClick']);
+defineEmits(['on-click']);
 
 const props = defineProps({
   text: {

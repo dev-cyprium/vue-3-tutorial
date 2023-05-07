@@ -1,12 +1,12 @@
 <template>
   <FilterOptions
     :genres="genres"
-    @onSelectedGenres="updateSelectedGenres"
-    @onSelectedMode="updateFilteringMode"
+    @on-selected-genres="updateSelectedGenres"
+    @on-selected-mode="updateFilteringMode"
   />
   <SortingOptions
-    @onSelectedSortingOption="selectedSortingOption = $event"
-    @onSelectedMode="(e) => (sortingMode = e)"
+    @on-selected-sorting-option="selectedSortingOption = $event"
+    @on-selected-mode="(e) => (sortingMode = e)"
   />
 
   <div class="flex w-full flex-wrap justify-center gap-10">

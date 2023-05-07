@@ -33,7 +33,7 @@
               classes="w-1/2 mt-6 mr-0"
               :text="secondaryButton.buttonText"
               :is-primary="false"
-              @onClick="$emit('secondaryAction')"
+              @on-click="$emit('on-secondary-action')"
             >
               <template #icon>
                 <slot name="secondary-button-icon"></slot>
@@ -45,7 +45,7 @@
                 mt-6 mr-0
               `"
               :text="primaryButton.buttonText"
-              @onClick="$emit('primaryAction')"
+              @on-click="$emit('on-primary-action')"
             >
               <template #icon>
                 <slot name="primary-button-icon"></slot>
@@ -63,7 +63,7 @@ import { onUnmounted, onMounted } from 'vue';
 import CloseIcon from '@/components/shared/icons/CloseIcon.vue';
 import AppButton from '@/components/shared/AppButton.vue';
 
-const emit = defineEmits(['close', 'primaryAction', 'secondaryAction']);
+const emit = defineEmits(['close', 'on-primary-action', 'on-secondary-action']);
 const props = defineProps({
   title: {
     type: String,

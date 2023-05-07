@@ -68,7 +68,7 @@
         <a href="#">
           <RowActions
             :comic="props.comic"
-            @comicRemoved="$emit('comicRemoved', $event)"
+            @comic-removed="$emit('comic-removed', $event)"
           />
         </a>
       </div>
@@ -80,6 +80,8 @@
 import dayjs from 'dayjs';
 import StarIcon from '@/components/shared/icons/StarIcon.vue';
 import RowActions from '@/components/reading-list/RowActions.vue';
+
+defineEmits(['comic-removed']);
 
 const props = defineProps({
   comic: {

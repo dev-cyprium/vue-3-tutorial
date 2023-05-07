@@ -8,7 +8,7 @@
       :searchable="false"
       mode="single"
       placeholder="Sort by..."
-      @onSelectedOptions="(ev) => $emit('onSelectedSortingOption', ev)"
+      @on-selected-options="(ev) => $emit('on-selected-sorting-option', ev)"
     />
     <Dropdown
       classes="flex-1 basis-1/3"
@@ -18,7 +18,7 @@
       :searchable="false"
       mode="single"
       placeholder="Sort ascending / descending"
-      @onSelectedOptions="(ev) => $emit('onSelectedMode', ev)"
+      @on-selected-options="(ev) => $emit('on-selected-mode', ev)"
     />
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
       sortingModes,
     };
   },
-  emits: ['onSelectedSortingOption', 'onSelectedMode'],
+  emits: ['on-selected-sorting-option', 'on-selected-mode'],
   components: {
     Dropdown,
   },

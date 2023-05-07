@@ -7,7 +7,7 @@
       :searchable="true"
       mode="tags"
       placeholder="Filter by genres"
-      @onSelectedOptions="(ev) => $emit('onSelectedGenres', ev)"
+      @on-selected-options="(ev) => $emit('on-selected-genres', ev)"
     />
     <Dropdown
       classes="flex-1 basis-1/3"
@@ -17,7 +17,7 @@
       :searchable="false"
       mode="single"
       placeholder="Select filtering mode"
-      @onSelectedOptions="(ev) => $emit('onSelectedMode', ev)"
+      @on-selected-options="(ev) => $emit('on-selected-mode', ev)"
     />
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
       filteringModes,
     };
   },
-  emits: ['onSelectedGenres', 'onSelectedMode'],
+  emits: ['on-selected-genres', 'on-selected-mode'],
   components: {
     Dropdown,
   },

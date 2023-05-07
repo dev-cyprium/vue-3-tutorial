@@ -17,7 +17,7 @@
       :can-deselect="false"
       @open="onMultiselectOpening"
       @close="onMultiselectClosing"
-      @change="(ev) => $emit('onSelectedOptions', ev)"
+      @change="(ev) => $emit('on-selected-options', ev)"
     >
       <template
         v-if="mode === 'tags'"
@@ -87,7 +87,7 @@ export default {
   components: {
     Multiselect,
   },
-  emits: ['onSelectedOptions'],
+  emits: ['on-selected-options'],
   props: {
     prefilledOptions: {
       type: Array,

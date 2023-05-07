@@ -17,7 +17,7 @@
       :primary-button="{
         buttonText: 'Update progress',
       }"
-      @primaryAction="onSubmit"
+      @on-primary-action="onSubmit"
       @close="showEditModal = false"
     >
       <template #content>
@@ -38,8 +38,8 @@
       :secondary-button="{
         buttonText: 'Cancel',
       }"
-      @primaryAction="$emit('comicRemoved', props.comic.id)"
-      @secondaryAction="showRemoveModal = false"
+      @on-primary-action="$emit('comic-removed', props.comic.id)"
+      @on-secondary-action="showRemoveModal = false"
       @close="showRemoveModal = false"
     >
       <template #content>
@@ -70,6 +70,8 @@ const Modal = defineAsyncComponent(() =>
 const EditManga = defineAsyncComponent(() =>
   import('@/components/reading-list/EditManga.vue')
 );
+
+defineEmits(['comic-removed']);
 
 const props = defineProps({
   comic: {

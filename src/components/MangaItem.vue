@@ -53,7 +53,7 @@
       <AppButton
         text="Add to reading list"
         classes="my-3 py-3"
-        @onClick="onAddToReadingList"
+        @on-click="onAddToReadingList"
       >
         <template #icon>
           <BookIcon classes="text-white mr-2 h-5 w-5" />

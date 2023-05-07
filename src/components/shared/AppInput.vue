@@ -22,9 +22,9 @@
       </svg>
     </button>
     <input
+      v-model="inputNumber"
       :id="props.id"
       :type="props.type"
-      v-model="inputNumber"
       :min="props.options.min"
       :max="props.options.max"
       :class="`w-full rounded-2xl border-0 bg-white pt-3 pb-3 pl-11 outline outline-2 outline-rose-200 focus:ring-0
@@ -62,8 +62,8 @@
   </div>
   <div v-else>
     <input
-      :id="props.id"
       v-model="inputText"
+      :id="props.id"
       :type="props.type"
       :class="`w-full rounded-2xl border-0 bg-white py-3 px-3
         outline outline-2 outline-rose-200 focus:ring-0 focus-visible:outline-dashed
@@ -73,23 +73,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import {
+  isAcceptedInputType,
+  isStringInputType,
+  isNumberInputType,
+} from '../../composables/helpers';
+
+const emit = defineEmits(['update:model-value']);
 
 const props = defineProps({
+  modelValue: {
+    type: [String, Number],
+    required: true,
+  },
   type: {
     type: String,
     default: 'text',
     validator: (value) => {
-      // When we implement styling for other types like radio, checkbox etc, we would allow it here
-      return [
-        'text',
-        'number',
-        'password',
-        'email',
-        'search',
-        'tel',
-        'url',
-      ].includes(value);
+      return isAcceptedInputType(value);
     },
   },
   id: {
@@ -110,8 +112,23 @@ const props = defineProps({
   },
 });
 
-const inputNumber = ref(0);
-const inputText = ref('');
+const inputNumber = isNumberInputType(props.type)
+  ? ref(+props.modelValue)
+  : null;
+const inputText = isStringInputType(props.type) ? ref(props.modelValue) : null;
+
+watch(inputNumber, (newValue) => {
+  if (newValue === '') {
+    emit('update:model-value', 0);
+  } else {
+    emit('update:model-value', +newValue);
+  }
+});
+
+watch(inputText, (newValue) => {
+  console.log('does this trigger?');
+  emit('update:model-value', newValue);
+});
 
 const substract = () => {
   if (inputNumber.value > props.options.min) {
@@ -136,6 +153,7 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type='number'] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 </style>

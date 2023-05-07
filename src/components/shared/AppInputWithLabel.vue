@@ -5,28 +5,32 @@
       class="mb-2 block text-sm font-medium text-gray-900"
       >{{ props.labelText }}</label
     >
-    <AppInput :id="props.id" :type="props.type" :options="props.options" />
+    <AppInput
+      :id="props.id"
+      :type="props.type"
+      :options="props.options"
+      :model-value="modelValue"
+      @update:model-value="(newValue) => $emit('update:model-value', newValue)"
+    />
   </div>
 </template>
 
 <script setup>
 import AppInput from '@/components/shared/AppInput.vue';
+import { isAcceptedInputType } from '../../composables/helpers';
+
+defineEmits(['update:model-value']);
 
 const props = defineProps({
+  modelValue: {
+    type: [String, Number],
+    required: true,
+  },
   type: {
     type: String,
     default: 'text',
     validator: (value) => {
-      // When we implement styling for other types like radio, checkbox etc, we would allow it here
-      return [
-        'text',
-        'number',
-        'password',
-        'email',
-        'search',
-        'tel',
-        'url',
-      ].includes(value);
+      return isAcceptedInputType(value);
     },
   },
   id: {

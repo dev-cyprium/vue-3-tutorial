@@ -81,7 +81,7 @@ onMounted(async () => {
               v-for="comic in readingListStore.currentlyReading"
               :key="comic.id"
               :comic="comic"
-              @comicRemoved="readingListStore.remove($event)"
+              @comic-removed="readingListStore.remove($event)"
             />
           </tbody>
         </table>
