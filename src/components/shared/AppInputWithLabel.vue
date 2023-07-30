@@ -1,10 +1,8 @@
 <template>
   <div>
-    <label
-      :for="props.id"
-      class="mb-2 block text-sm font-medium text-gray-900"
-      >{{ props.labelText }}</label
-    >
+    <label :for="props.id" class="mb-2 block text-sm font-medium text-gray-900">
+      {{ props.labelText }}
+    </label>
     <AppInput
       :id="props.id"
       :type="props.type"
@@ -17,7 +15,7 @@
 
 <script setup>
 import AppInput from '@/components/shared/AppInput.vue';
-import { isAcceptedInputType } from '../../composables/helpers';
+import { isAcceptedInputType } from '@/utils/helpers';
 
 defineEmits(['update:model-value']);
 

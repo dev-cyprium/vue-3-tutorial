@@ -25,6 +25,7 @@
         max: props.comic.chapters,
         showMaxNumber: true,
       }"
+      @update:model-value="(ev) => onChaptersReadUpdate(ev)"
     />
     <AppInputWithLabel
       v-model="formData.volumesRead"
@@ -36,6 +37,7 @@
         max: props.comic.volumes,
         showMaxNumber: true,
       }"
+      @update:model-value="(ev) => onVolumesReadUpdate(ev)"
     />
     <div>
       <label class="mb-2 block text-sm font-medium text-gray-900">
@@ -44,7 +46,7 @@
       <Dropdown
         classes="flex-1 basis-2/3 py-2"
         :outline="true"
-        :options="ratings"
+        :options="readingListStore.ratings"
         :prefilled-options="formData.rating"
         :searchable="true"
         mode="single"
@@ -56,13 +58,14 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useReadingListStore } from '@/stores/readingList';
 import Dropdown from '@/components/shared/Dropdown.vue';
 import AppInputWithLabel from '@/components/shared/AppInputWithLabel.vue';
-import { ratingDescriptions } from '../../composables/helpers';
+import { getAppropriateReadingState } from '@/utils/helpers';
 
 const readingListStore = useReadingListStore();
+const emit = defineEmits(['on-comic-update']);
 
 const props = defineProps({
   comic: {
@@ -72,46 +75,72 @@ const props = defineProps({
   },
 });
 
-const ratings = computed(() => {
-  return Object.entries(ratingDescriptions)
-    .reduce((acc, current) => {
-      const rating = +current[0];
-      const ratingDescription = current[1];
-      let value = ratingDescription.toLowerCase().split(' ');
-
-      if (value.length > 1) {
-        value = value.join('_');
-      } else {
-        value = value[0];
-      }
-
-      return [
-        ...acc,
-        {
-          name: `(${rating}) ${ratingDescription}`,
-          value: value,
-          rating,
-        },
-      ];
-    }, [])
-    .reverse();
-});
-
 const formData = ref({
   readingState:
-    props.comic.listData.readingState ??
+    props.comic?.listData?.readingState ??
     readingListStore.readingStates[0].value,
-  chaptersRead: props.comic.listData.chaptersRead ?? 1,
-  volumesRead: props.comic.listData.volumesRead ?? 0,
-  rating: props.comic.listData.rating ?? ratings.value[0].value,
+  chaptersRead: props.comic?.listData?.chaptersRead ?? 1,
+  volumesRead: props.comic?.listData?.volumesRead ?? 0,
+  rating: props.comic?.listData?.rating ?? readingListStore.ratings[0].value,
 });
 
+const previousReadingState = ref(formData.value.readingState);
+
+watch(
+  () => formData.value.readingState,
+  (_newVal, previousVal) => {
+    previousReadingState.value = previousVal;
+  }
+);
+
+onMounted(() => {
+  emitChanges();
+});
+
+const emitChanges = () => {
+  emit('on-comic-update', {
+    ...formData.value,
+  });
+};
+
 const onSelectedReadingState = (readingState) => {
-  console.log('selected readingState: ', readingState);
+  formData.value.readingState = readingState;
+
+  if (readingState === 'completed') {
+    formData.value.chaptersRead = props.comic.chapters;
+    formData.value.volumesRead = props.comic.volumes;
+  }
+
+  if (readingState === 'todo') {
+    formData.value.chaptersRead = 0;
+    formData.value.volumesRead = 0;
+  }
+  emitChanges();
+};
+
+const onVolumesReadUpdate = (updatedVolumes) => {
+  formData.value.readingState = getAppropriateReadingState({
+    read: updatedVolumes,
+    maxToRead: props.comic.volumes,
+    previousState: previousReadingState.value,
+    currentState: formData.value.readingState,
+  });
+  emitChanges();
+};
+
+const onChaptersReadUpdate = (updatedChapters) => {
+  formData.value.readingState = getAppropriateReadingState({
+    read: updatedChapters,
+    maxToRead: props.comic.chapters,
+    previousState: previousReadingState.value,
+    currentState: formData.value.readingState,
+  });
+  emitChanges();
 };
 
 const onSelectedRating = (rating) => {
-  console.log('selected rating: ', rating);
+  formData.value.rating = rating;
+  emitChanges();
 };
 </script>
 

@@ -46,12 +46,16 @@
 <script>
 import Multiselect from '@vueform/multiselect';
 import { ref } from '@vue/reactivity';
-import { computed } from 'vue';
+import { computed, watchEffect } from 'vue';
 
 export default {
   setup(props) {
     const multiselectWrapper = ref();
     const selectedOptions = ref(props.prefilledOptions);
+
+    watchEffect(() => {
+      selectedOptions.value = props.prefilledOptions;
+    });
 
     const outlineClasses = computed(() => {
       return props.outline ? 'outline outline-2 outline-rose-200' : '';
@@ -90,7 +94,7 @@ export default {
   emits: ['on-selected-options'],
   props: {
     prefilledOptions: {
-      type: Array,
+      type: [Array, String],
       required: false,
       default: () => [],
     },

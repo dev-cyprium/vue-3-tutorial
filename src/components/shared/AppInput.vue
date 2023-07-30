@@ -73,12 +73,12 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import {
   isAcceptedInputType,
   isStringInputType,
   isNumberInputType,
-} from '../../composables/helpers';
+} from '@/utils/helpers';
 
 const emit = defineEmits(['update:model-value']);
 
@@ -114,8 +114,14 @@ const props = defineProps({
 
 const inputNumber = isNumberInputType(props.type)
   ? ref(+props.modelValue)
-  : null;
-const inputText = isStringInputType(props.type) ? ref(props.modelValue) : null;
+  : ref(null);
+const inputText = isStringInputType(props.type)
+  ? ref(props.modelValue)
+  : ref(null);
+
+watch(inputText, (newValue) => {
+  emit('update:model-value', newValue);
+});
 
 watch(inputNumber, (newValue) => {
   if (newValue === '') {
@@ -125,9 +131,12 @@ watch(inputNumber, (newValue) => {
   }
 });
 
-watch(inputText, (newValue) => {
-  console.log('does this trigger?');
-  emit('update:model-value', newValue);
+watchEffect(() => {
+  if (isNumberInputType(props.type)) {
+    inputNumber.value = +props.modelValue;
+  } else {
+    inputText.value = props.modelValue;
+  }
 });
 
 const substract = () => {

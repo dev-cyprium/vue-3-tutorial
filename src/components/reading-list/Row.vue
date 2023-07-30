@@ -31,18 +31,22 @@
     </th>
     <td class="px-6 py-4">
       <span
-        class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+        :class="`${
+          readingStateColorMapping[props.comic.listData.readingState]
+        } inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`"
       >
-        Currently reading
+        {{ readingStateName }}
       </span>
     </td>
     <td class="px-6 py-4">
-      {{ formatStartReadingDate(comic) }}
+      {{ readingStartDate }}
     </td>
     <td class="px-6 py-4">
       <div class="flex gap-2">
         <span
-          class="inline-flex items-center gap-1 rounded-full bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-600"
+          :class="`${
+            readingStateColorMapping[props.comic.listData.readingState]
+          } inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`"
         >
           {{ props.comic.listData.chaptersRead }} / {{ props.comic.chapters }}
         </span>
@@ -51,7 +55,9 @@
     <td class="px-6 py-4">
       <div class="flex gap-2">
         <span
-          class="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-500"
+          :class="`${
+            readingStateColorMapping[props.comic.listData.readingState]
+          } inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold`"
         >
           {{ props.comic.listData.volumesRead }} / {{ props.comic.volumes }}
         </span>
@@ -59,7 +65,7 @@
     </td>
     <td class="px-6 py-4">
       <span class="flex items-center gap-1">
-        {{ props.comic.listData.rating ?? 'Your rating' }}
+        {{ getRatingValueForKey(props.comic.listData.rating) }}
         <StarIcon />
       </span>
     </td>
@@ -80,7 +86,15 @@
 import dayjs from 'dayjs';
 import StarIcon from '@/components/shared/icons/StarIcon.vue';
 import RowActions from '@/components/reading-list/RowActions.vue';
+import {
+  readingStateColorMapping,
+  readingStateLabels,
+  getRatingValueForKey,
+} from '@/utils/helpers.js';
+import { computed } from 'vue';
+import { useReadingListStore } from '@/stores/readingList';
 
+const readingListStore = useReadingListStore();
 defineEmits(['comic-removed']);
 
 const props = defineProps({
@@ -91,10 +105,19 @@ const props = defineProps({
   },
 });
 
-const formatStartReadingDate = (comic) => {
-  const date = comic?.listData?.startedReading ?? dayjs();
+const readingStateName = computed(() => {
+  return (
+    readingListStore.readingStates.find(
+      (readingState) =>
+        readingState.value === props.comic?.listData?.readingState
+    )?.name ?? readingStateLabels['curretly']
+  );
+});
+
+const readingStartDate = computed(() => {
+  const date = props.comic?.listData?.startedReading ?? dayjs();
   return dayjs(date).format('DD MMM YYYY');
-};
+});
 </script>
 
 <style lang="scss" scoped></style>

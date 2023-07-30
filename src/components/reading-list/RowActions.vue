@@ -18,10 +18,15 @@
         buttonText: 'Update progress',
       }"
       @on-primary-action="onSubmit"
-      @close="showEditModal = false"
+      @close="onEditModalClose"
     >
       <template #content>
-        <EditManga :comic="props.comic" />
+        <div class="flex min-h-[392px] flex-col justify-center">
+          <EditManga
+            :comic="props.comic"
+            @on-comic-update="(ev) => (readingData = ev)"
+          />
+        </div>
       </template>
       <template #primary-button-icon>
         <EditIcon classes="text-white mr-2 h-auto w-4" />
@@ -60,17 +65,18 @@
 
 <script setup>
 import { defineAsyncComponent, ref } from 'vue';
+import { useReadingListStore } from '@/stores/readingList';
 import EditIcon from '@/components/shared/icons/EditIcon.vue';
 import CloseIcon from '@/components/shared/icons/CloseIcon.vue';
 import RemoveBinIcon from '@/components/shared/icons/RemoveBinIcon.vue';
+import EditManga from '@/components/reading-list/EditManga.vue';
 
 const Modal = defineAsyncComponent(() =>
   import('@/components/shared/Modal.vue')
 );
-const EditManga = defineAsyncComponent(() =>
-  import('@/components/reading-list/EditManga.vue')
-);
 
+// eslint-disable-next-line no-unused-vars
+const readingListStore = useReadingListStore();
 defineEmits(['comic-removed']);
 
 const props = defineProps({
@@ -83,10 +89,18 @@ const props = defineProps({
 
 const showEditModal = ref(false);
 const showRemoveModal = ref(false);
+const readingData = ref(null);
 
-const onSubmit = () => {
-  console.log('on submit...');
+const onEditModalClose = () => {
   showEditModal.value = false;
+  readingData.value = null;
+};
+
+const onSubmit = async () => {
+  showEditModal.value = false;
+
+  if (!readingData.value) return;
+  await readingListStore.update(props.comic.id, readingData.value);
 };
 </script>
 
