@@ -90,7 +90,7 @@ watch(
   () => formData.value.readingState,
   (_newVal, previousVal) => {
     previousReadingState.value = previousVal;
-  }
+  },
 );
 
 onMounted(() => {

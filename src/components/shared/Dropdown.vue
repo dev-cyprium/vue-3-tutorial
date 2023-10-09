@@ -44,9 +44,8 @@
 </template>
 
 <script>
+import { ref, computed, watchEffect } from 'vue';
 import Multiselect from '@vueform/multiselect';
-import { ref } from '@vue/reactivity';
-import { computed, watchEffect } from 'vue';
 
 export default {
   setup(props) {

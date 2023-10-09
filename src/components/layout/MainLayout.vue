@@ -1,6 +1,6 @@
 <script setup>
 import Navigation from '@/components/layout/Navigation.vue';
-import Footer from '@/components/layout/Footer.vue';
+import AppFooter from '@/components/layout/AppFooter.vue';
 import Loader from '@/components/shared/Loader.vue';
 </script>
 
@@ -21,7 +21,7 @@ import Loader from '@/components/shared/Loader.vue';
       </Suspense>
     </div>
   </main>
-  <Footer />
+  <AppFooter />
 </template>
 
 <style lang="scss" scoped></style>

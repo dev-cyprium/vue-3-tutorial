@@ -90,7 +90,7 @@ import { ref } from 'vue';
 
 export default {
   setup() {
-    let mobileMenuOpen = ref(false);
+    const mobileMenuOpen = ref(false);
 
     const toggleMenu = () => {
       mobileMenuOpen.value = !mobileMenuOpen.value;

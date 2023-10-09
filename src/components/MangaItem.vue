@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core';
+import { computed } from 'vue';
 import { useReadingListStore } from '@/stores/readingList';
 import StarIcon from '@/components/shared/icons/StarIcon.vue';
 import ChaptersIcon from '@/components/shared/icons/ChaptersIcon.vue';

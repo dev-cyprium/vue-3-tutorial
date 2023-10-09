@@ -28,11 +28,8 @@ import MangaItem from '@/components/MangaItem.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
 import SortingOptions from '@/components/SortingOptions.vue';
 
-let { data: comics } = await axios.get('http://localhost:9000/comics');
-const { data: genres } = await axios.get('http://localhost:9000/genres');
-
-comics = ref(comics);
-
+const comics = ref([]);
+const genres = ref([]);
 let filteringMode = ref('any');
 let selectedGenres = ref([]);
 const selectedSortingOption = ref('score');
@@ -41,6 +38,12 @@ const sortingMode = ref('asc');
 const readingListStore = useReadingListStore();
 
 onMounted(async () => {
+  const { data: comicData } = await axios.get('http://localhost:9000/comics');
+  const { data: genreData } = await axios.get('http://localhost:9000/genres');
+
+  comics.value = comicData;
+  genres.value = genreData;
+
   if (!readingListStore.currentlyReading.length) {
     await readingListStore.fetchState();
   }
@@ -69,13 +72,13 @@ const filteredComics = computed(() => {
   if (filteringMode.value === 'all') {
     // All of the following genres
     return sortedComics.value?.filter((comic) =>
-      selectedGenres.value?.every((filter) => comic.genres.includes(filter))
+      selectedGenres.value?.every((filter) => comic.genres.includes(filter)),
     );
   }
 
   // Any of the following genres
   return sortedComics.value?.filter((comic) =>
-    comic.genres.some((genre) => selectedGenres.value?.includes(genre))
+    comic.genres.some((genre) => selectedGenres.value?.includes(genre)),
   );
 });
 
