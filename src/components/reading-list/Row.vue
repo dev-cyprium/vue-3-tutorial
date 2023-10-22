@@ -109,7 +109,7 @@ const readingStateName = computed(() => {
   return (
     readingListStore.readingStates.find(
       (readingState) =>
-        readingState.value === props.comic?.listData?.readingState
+        readingState.value === props.comic?.listData?.readingState,
     )?.name ?? readingStateLabels['curretly']
   );
 });

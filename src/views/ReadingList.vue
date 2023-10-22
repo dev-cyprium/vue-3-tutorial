@@ -18,7 +18,7 @@ onMounted(async () => {
   <MainLayout>
     <div class="m-5 w-full">
       <h1 class="mb-5 text-2xl font-medium text-slate-600">
-        Currently reading
+        Your reading list
       </h1>
       <div
         class="overflow-x-auto whitespace-nowrap rounded-lg border border-gray-200 shadow-md"

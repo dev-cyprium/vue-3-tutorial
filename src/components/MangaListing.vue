@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
 import { useReadingListStore } from '@/stores/readingList';
 import MangaItem from '@/components/MangaItem.vue';
@@ -37,17 +37,15 @@ const sortingMode = ref('asc');
 
 const readingListStore = useReadingListStore();
 
-onMounted(async () => {
-  const { data: comicData } = await axios.get('http://localhost:9000/comics');
-  const { data: genreData } = await axios.get('http://localhost:9000/genres');
+const { data: comicData } = await axios.get('http://localhost:9000/comics');
+const { data: genreData } = await axios.get('http://localhost:9000/genres');
 
-  comics.value = comicData;
-  genres.value = genreData;
+comics.value = comicData;
+genres.value = genreData;
 
-  if (!readingListStore.currentlyReading.length) {
-    await readingListStore.fetchState();
-  }
-});
+if (!readingListStore.currentlyReading.length) {
+  await readingListStore.fetchState();
+}
 
 const sortedComics = computed(() => {
   const allComics = comics.value.map((c) => c);
@@ -91,7 +89,7 @@ const updateFilteringMode = (mode) => {
 };
 </script>
 
-<!-- <script>
+<!--  <script>
 import { computed, ref } from 'vue';
 import axios from 'axios';
 import MangaItem from '@/components/MangaItem.vue';
@@ -100,15 +98,18 @@ import SortingOptions from '@/components/SortingOptions.vue';
 
 export default {
   async setup() {
-    let { data: comics } = await axios.get('http://localhost:9000/comics');
-    const { data: genres } = await axios.get('http://localhost:9000/genres');
-
-    comics = ref(comics);
-
+    const comics = ref([]);
+    const genres = ref([]);
     const selectedGenres = ref([]);
     const filteringMode = ref('any');
     const selectedSortingOption = ref('score');
     const sortingMode = ref('asc');
+
+    const { data: comicData } = await axios.get('http://localhost:9000/comics');
+    const { data: genreData } = await axios.get('http://localhost:9000/genres');
+
+    comics.value = comicData;
+    genres.value = genreData;
 
     const sortedComics = computed(() => {
       const allComics = comics.value.map((c) => c);
@@ -133,13 +134,15 @@ export default {
       if (filteringMode.value === 'all') {
         // All of the following genres
         return sortedComics.value?.filter((comic) =>
-          selectedGenres.value?.every((filter) => comic.genres.includes(filter))
+          selectedGenres.value?.every((filter) =>
+            comic.genres.includes(filter),
+          ),
         );
       }
 
       // Any of the following genres
       return sortedComics.value?.filter((comic) =>
-        comic.genres.some((genre) => selectedGenres.value?.includes(genre))
+        comic.genres.some((genre) => selectedGenres.value?.includes(genre)),
       );
     });
 
@@ -167,7 +170,7 @@ export default {
       this.filteringMode = mode;
     },
   },
-  // How it would be done in Vue 2:
+  // How it would be done in Vue 2 with Options API:
   // computed: {
   //   sortedComics() {
   //     const allComics = this.comics.map((c) => c);

@@ -60,10 +60,10 @@ export const useReadingListStore = defineStore('readingListStore', {
     async remove(comicId) {
       if (findById(this.currentlyReading, comicId)) {
         this.currentlyReading = this.currentlyReading.filter(
-          (c) => c.id !== comicId
+          (c) => c.id !== comicId,
         );
         await axios.delete(
-          `http://localhost:9000/currently-reading/${comicId}`
+          `http://localhost:9000/currently-reading/${comicId}`,
         );
       }
     },
@@ -78,15 +78,14 @@ export const useReadingListStore = defineStore('readingListStore', {
           },
         };
         const comicIndex = this.currentlyReading.findIndex(
-          (comic) => comic.id === comicId
+          (comic) => comic.id === comicId,
         );
         this.currentlyReading.splice(comicIndex, 1, payload);
 
         await axios.put(
           `http://localhost:9000/currently-reading/${comicId}`,
-          payload
+          payload,
         );
-        // TODO: notifikacija
       }
     },
   },

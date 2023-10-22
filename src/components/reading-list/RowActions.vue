@@ -72,10 +72,9 @@ import RemoveBinIcon from '@/components/shared/icons/RemoveBinIcon.vue';
 import EditManga from '@/components/reading-list/EditManga.vue';
 
 const Modal = defineAsyncComponent(() =>
-  import('@/components/shared/Modal.vue')
+  import('@/components/shared/Modal.vue'),
 );
 
-// eslint-disable-next-line no-unused-vars
 const readingListStore = useReadingListStore();
 defineEmits(['comic-removed']);
 

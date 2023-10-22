@@ -94,7 +94,6 @@ export default {
   props: {
     prefilledOptions: {
       type: [Array, String],
-      required: false,
       default: () => [],
     },
     options: {
