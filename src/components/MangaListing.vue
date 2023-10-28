@@ -38,10 +38,10 @@ const sortingMode = ref('asc');
 const readingListStore = useReadingListStore();
 
 const { data: comicData } = await axios.get(
-  'https://comics.kaznaservis.rs//comics',
+  'https://comics.kaznaservis.rs/comics',
 );
 const { data: genreData } = await axios.get(
-  'https://comics.kaznaservis.rs//genres',
+  'https://comics.kaznaservis.rs/genres',
 );
 
 comics.value = comicData;
@@ -109,8 +109,8 @@ export default {
     const selectedSortingOption = ref('score');
     const sortingMode = ref('asc');
 
-    const { data: comicData } = await axios.get('https://comics.kaznaservis.rs//comics');
-    const { data: genreData } = await axios.get('https://comics.kaznaservis.rs//genres');
+    const { data: comicData } = await axios.get('https:/comics.kaznaservis.rs//comics');
+    const { data: genreData } = await axios.get('https:/comics.kaznaservis.rs//genres');
 
     comics.value = comicData;
     genres.value = genreData;

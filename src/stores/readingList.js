@@ -30,7 +30,7 @@ export const useReadingListStore = defineStore('readingListStore', {
   actions: {
     async fetchState() {
       this.currentlyReading = (
-        await axios.get('https://comics.kaznaservis.rs//currently-reading/')
+        await axios.get('https://comics.kaznaservis.rs/currently-reading/')
       ).data;
       this.isLoading = false;
     },
@@ -54,7 +54,7 @@ export const useReadingListStore = defineStore('readingListStore', {
         console.log('🚀 ~ comic added: ', payload);
         this.currentlyReading.push(payload);
         await axios.post(
-          'https://comics.kaznaservis.rs//currently-reading/',
+          'https://comics.kaznaservis.rs/currently-reading/',
           payload,
         );
       }
@@ -66,7 +66,7 @@ export const useReadingListStore = defineStore('readingListStore', {
           (c) => c.id !== comicId,
         );
         await axios.delete(
-          `https://comics.kaznaservis.rs//currently-reading/${comicId}`,
+          `https://comics.kaznaservis.rs/currently-reading/${comicId}`,
         );
       }
     },
@@ -122,7 +122,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 
 //   const fetchState = async () => {
 //     currentlyReading.value = (
-//       await axios.get('https://comics.kaznaservis.rs//currently-reading/')
+//       await axios.get('https://comics.kaznaservis.rs/currently-reading/')
 //     ).data;
 //     isLoading.value = false;
 //   };
@@ -144,7 +144,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 //       };
 //       console.log('🚀 ~ comic added: ', data);
 //       currentlyReading.value.push(data);
-//       axios.post('https://comics.kaznaservis.rs//currently-reading/', data);
+//       axios.post('https://comics.kaznaservis.rs/currently-reading/', data);
 //     }
 //   };
 
@@ -153,7 +153,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 //       currentlyReading.value = currentlyReading.value.filter(
 //         (c) => c.id !== comic.id
 //       );
-//       axios.delete('https://comics.kaznaservis.rs//currently-reading/', comic);
+//       axios.delete('https://comics.kaznaservis.rs/currently-reading/', comic);
 //     }
 //   };
 
