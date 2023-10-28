@@ -9,7 +9,7 @@
     @on-selected-mode="(e) => (sortingMode = e)"
   />
 
-  <div class="flex w-full flex-wrap justify-center gap-10">
+  <div class="flex flex-wrap justify-center w-full gap-10">
     <MangaItem v-for="comic in filteredComics" :comic="comic" :key="comic.id" />
     <h2
       v-if="filteredComics.length === 0"
@@ -37,8 +37,12 @@ const sortingMode = ref('asc');
 
 const readingListStore = useReadingListStore();
 
-const { data: comicData } = await axios.get('http://localhost:9000/comics');
-const { data: genreData } = await axios.get('http://localhost:9000/genres');
+const { data: comicData } = await axios.get(
+  'https://comics.kaznaservis.rs//comics',
+);
+const { data: genreData } = await axios.get(
+  'https://comics.kaznaservis.rs//genres',
+);
 
 comics.value = comicData;
 genres.value = genreData;
@@ -105,8 +109,8 @@ export default {
     const selectedSortingOption = ref('score');
     const sortingMode = ref('asc');
 
-    const { data: comicData } = await axios.get('http://localhost:9000/comics');
-    const { data: genreData } = await axios.get('http://localhost:9000/genres');
+    const { data: comicData } = await axios.get('https://comics.kaznaservis.rs//comics');
+    const { data: genreData } = await axios.get('https://comics.kaznaservis.rs//genres');
 
     comics.value = comicData;
     genres.value = genreData;

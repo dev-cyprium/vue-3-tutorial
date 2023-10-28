@@ -30,7 +30,7 @@ export const useReadingListStore = defineStore('readingListStore', {
   actions: {
     async fetchState() {
       this.currentlyReading = (
-        await axios.get('http://localhost:9000/currently-reading/')
+        await axios.get('https://comics.kaznaservis.rs//currently-reading/')
       ).data;
       this.isLoading = false;
     },
@@ -53,7 +53,10 @@ export const useReadingListStore = defineStore('readingListStore', {
         };
         console.log('🚀 ~ comic added: ', payload);
         this.currentlyReading.push(payload);
-        await axios.post('http://localhost:9000/currently-reading/', payload);
+        await axios.post(
+          'https://comics.kaznaservis.rs//currently-reading/',
+          payload,
+        );
       }
     },
 
@@ -63,7 +66,7 @@ export const useReadingListStore = defineStore('readingListStore', {
           (c) => c.id !== comicId,
         );
         await axios.delete(
-          `http://localhost:9000/currently-reading/${comicId}`,
+          `https://comics.kaznaservis.rs//currently-reading/${comicId}`,
         );
       }
     },
@@ -83,7 +86,7 @@ export const useReadingListStore = defineStore('readingListStore', {
         this.currentlyReading.splice(comicIndex, 1, payload);
 
         await axios.put(
-          `http://localhost:9000/currently-reading/${comicId}`,
+          `https://comics.kaznaservis.rs//currently-reading/${comicId}`,
           payload,
         );
       }
@@ -119,7 +122,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 
 //   const fetchState = async () => {
 //     currentlyReading.value = (
-//       await axios.get('http://localhost:9000/currently-reading/')
+//       await axios.get('https://comics.kaznaservis.rs//currently-reading/')
 //     ).data;
 //     isLoading.value = false;
 //   };
@@ -141,7 +144,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 //       };
 //       console.log('🚀 ~ comic added: ', data);
 //       currentlyReading.value.push(data);
-//       axios.post('http://localhost:9000/currently-reading/', data);
+//       axios.post('https://comics.kaznaservis.rs//currently-reading/', data);
 //     }
 //   };
 
@@ -150,7 +153,7 @@ export const useReadingListStore = defineStore('readingListStore', {
 //       currentlyReading.value = currentlyReading.value.filter(
 //         (c) => c.id !== comic.id
 //       );
-//       axios.delete('http://localhost:9000/currently-reading/', comic);
+//       axios.delete('https://comics.kaznaservis.rs//currently-reading/', comic);
 //     }
 //   };
 
